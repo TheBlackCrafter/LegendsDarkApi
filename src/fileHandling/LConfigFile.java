@@ -1,9 +1,10 @@
 package fileHandling;
 
 import java.io.File;
+import java.io.IOException;
 
 public class LConfigFile {
-	private LFile file = new LFile();
+	private LFile file;
 	private String programName;
 	
 	private int varAmount = 0;
@@ -12,7 +13,7 @@ public class LConfigFile {
 	private String varTxt[] = new String[100];
 	
 	public LConfigFile(File path, String programName){
-		file.setFile(path);
+		file = new LFile(path);
 		this.programName = programName;
 	}
 	
@@ -27,28 +28,29 @@ public class LConfigFile {
 		varAmount++;
 	}
 	
-	public boolean create(){
-		boolean returner;
-		returner = file.create();
-		file.append("##########################################################");
-		file.append("##							##");
-		file.append("##							##");
-		file.append("##			"+programName+"			##");
-		file.append("##							##");
-		file.append("##							##");
-		file.append("##	everything with ## will be ignored		##");
-		file.append("##########################################################");
-		file.append("");
+	public void create() throws IOException{
+		file.create();
 		
-		for(int i = 0;  !(varAmount == i);i++){
-			file.append("##" + varTxt[i]);
-			file.append(varStart[i]);
+			file.append("##########################################################");
+			file.append("##							##");
+			file.append("##							##");
+			file.append("##			"+programName+"			##");
+			file.append("##							##");
+			file.append("##							##");
+			file.append("##	everything with ## will be ignored		##");
+			file.append("##########################################################");
 			file.append("");
-		}
-		return returner;
+			
+			for(int i = 0;  !(varAmount == i);i++){
+				if(!(varTxt[i].length() == 0)){
+					file.append("##" + varTxt[i]);
+				}
+				file.append(varStart[i]);
+				file.append("");
+			}
 	}
 	
-	public String open(String name){
+	public String open(String name) throws IOException{
 		int i = 0;
 		file.open(true);
 		
@@ -58,7 +60,7 @@ public class LConfigFile {
 			}
 			i++;
 		}
-		return file.string[i+1];
+		return file.list.get(i+1);
 	}
 	
 }

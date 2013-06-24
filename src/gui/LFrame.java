@@ -18,6 +18,7 @@ public class LFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
 	}
 
 	public JFrame get(){
@@ -34,6 +35,7 @@ public class LFrame {
 	
 	public void setSize(int x, int y){
 		frame.setSize(x,y);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	public void setVisable(boolean b){
@@ -51,8 +53,13 @@ public class LFrame {
 	}
 	
 	public void add(LTextArea t){
-		panel.add(t.get(), t.getPlc());
-		frame.revalidate();
+		if(t.useScrollPane()){
+			panel.add(t.getScroll(), t.getPlc());
+			frame.revalidate();
+		}else{
+			panel.add(t.get(), t.getPlc());
+			frame.revalidate();
+		}
 	}
 	
 	public void add(LCheckBox t){
@@ -93,4 +100,18 @@ public class LFrame {
 		panel.add(t.get(), t.getPlc());
 		frame.revalidate();
 	}
+	
+	public void add(LBufferedImage t){
+		frame.add(t);
+		this.repaint();
+	}
+	
+	public void repaint(){
+		frame.repaint();
+	}
+	
+	public void setResizable(boolean b){
+		frame.setResizable(b);
+	}
+	
 }

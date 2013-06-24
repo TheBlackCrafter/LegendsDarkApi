@@ -4,18 +4,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class LTextArea {
 
 	private JTextArea comp;
 	private GridBagConstraints plc;
+	private JScrollPane scroll;
+	private boolean useScrollPane = false;
 	
 	public LTextArea() {
 		comp = new JTextArea();
 		comp.setVisible(true);
 	}
-
+	
 	public void setText(String s){
 		comp.setText(s);
 	}
@@ -62,5 +67,20 @@ public class LTextArea {
 	public void setGridSize(int x, int y){
 		plc.gridwidth = x;
 		plc.gridheight = y;
+	}
+	
+	public void useScrollPane(boolean b){
+		this.useScrollPane = b;
+		scroll = new JScrollPane(comp);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+	}
+	
+	public boolean useScrollPane(){
+		return useScrollPane;
+	}
+	
+	public JScrollPane getScroll(){
+		return scroll;
 	}
 }

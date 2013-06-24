@@ -9,21 +9,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
-public class LFile {
+public class LFile2 {
 
 	private File f;
 	private Scanner s;
-	public List<String> list = new ArrayList<String>();
-	private String temp;
+	public String[] string = new String[1000];
 	private int p;
 	
-	public LFile(File file){
+	public LFile2(File file){
 		f = file;
 	}
 	
@@ -34,11 +31,13 @@ public class LFile {
 	public String[] open(boolean ignoreEmpty)  throws IOException {
 		if(ignoreEmpty){ 
 			s = new Scanner(this.f);
-			while(s.hasNext()){
-				temp = s.next();
-				if(temp.substring(0, 2) != null && !temp.substring(0, 2).equals("##")){
-					list.add(temp);
-				}else{
+			for(int i = 1; s.hasNext(); ){
+				string[i] = new String();
+				string[i] = s.next();
+				if(string[i].substring(0, 2) != null && !string[i].substring(0, 2).equals("##")){
+					i++;
+				}
+				else{
 					s.nextLine();
 				}
 			}
@@ -46,19 +45,13 @@ public class LFile {
 		}
 		else{ 	
 			s = new Scanner(this.f);
-			while(s.hasNext()){
-				list.add(s.next());
+			for(int i = 1; s.hasNext(); i++){
+				string[i] = new String();
+				string[i] = s.next();
 			}
-			s.close();
+				s.close();
 		}
-		String[] out = new String[list.size()];
-		int i = 0;
-		for(String t : list){
-			out[i] = t;
-			i++;
-		}
-		
-		return out;
+		return string;
 	}
 	
 	public void append(String txt){
@@ -108,7 +101,10 @@ public class LFile {
 	}
 	
 	public boolean exist(){
-		return f.exists();
+		if(f.exists()){
+			return true;
+		}
+		return false;
 	}
 	
 	public static void copyFolder(File src, File dest) throws IOException{

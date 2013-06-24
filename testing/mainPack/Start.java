@@ -7,8 +7,9 @@ import gui.LMenuBar;
 import gui.LMenuItem;
 import gui.LPicture;
 import gui.LTextField;
-
 import java.io.File;
+import java.io.IOException;
+
 public class Start
 {
 
@@ -32,10 +33,27 @@ public class Start
 	static int code;
 	
 	public static void main(String[] args){
+		config.addVar("sijmen", "16", "dit is mijn leeftijd!");
+		config.addVar("Henk", "60", "dit is de leeftijd van Henk");
+		config.addVar("Fieke", "14", "dit is de leeftijd van fieke");
+		config.addVar("Anja", "55", "de leeftijd van anja");
+		config.addVar("BgColor", "255255255", "this is the background color");
+		
+		
+		if(!config.exists()){
+			try {
+				config.create();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		f1 = new LFrame();
+		f1.setVisable(false);
 		f1.setTitel("Hellowe");
 		f1.setSize(600, 600);
-		
 		f1.addJMenuBar(menuBar);
 		menuBar.addMenu(menu1);		menu1.setText("ding 1");
 		menuBar.addMenu(menu2);		menu2.setText("ding 2");
@@ -53,18 +71,15 @@ public class Start
 		pic.setPlace(1, 1);
 		pic.setSize(50,50);
 		f1.add(pic);
-		
-		config.addVar("sijmen", "16", "dit is mijn leeftijd!");
-		config.addVar("Henk", "60", "dit is de leeftijd van Henk");
-		config.addVar("Fieke", "14", "dit is de leeftijd van fieke");
-		config.addVar("Anja", "55", "de leeftijd van anja");
-		
-		if(!config.exists()){
-			config.create();
+
+		//System.out.println(config.open("Anja"));
+		try {
+			System.out.println(config.open("BgColor"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		System.out.println(config.open("Anja"));
-		
+		f1.setVisable(true);
 		
 	}
 	
